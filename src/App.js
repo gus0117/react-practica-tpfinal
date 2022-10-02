@@ -1,25 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import { useContext, useEffect, useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import { WeatherContext } from './context/WeatherContext';
+import Home from "./routes/Home/Home";
+import CreateLocation from './routes/Location/CreateLocation';
+import Navigation from './routes/Navigation/Navigation';
 
-function App() {
+export default function App() {
+  const { setListWeathers } = useContext(WeatherContext);
+  const list = [
+    {
+      id: 0,
+      name: "S. S. de Jujuy, FI Unju",
+      lat: -24.1895811,
+      lon: -65.2982537,
+      windspeed: 2,
+      temperature: 17
+    },
+    {
+      id: 1,
+      name: "S. S. de Jujuy, FH Unju",
+      lat: -24.1877411,
+      lon: -65.3048197,
+      windspeed: 2,
+      temperature: 17
+    }
+  ];
+
+  useEffect(()=>{
+    setListWeathers(list);
+  },[])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Routes>
+        <Route path='/' element={<Navigation />}>
+          <Route index element={<Home />} />
+          <Route path='location/create' element={<CreateLocation />} />
+        </Route>
+      </Routes>
     </div>
   );
 }
-
-export default App;
